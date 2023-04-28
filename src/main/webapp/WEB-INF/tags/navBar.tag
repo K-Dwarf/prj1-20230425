@@ -6,10 +6,14 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary mb-5">
 	<div class="container-lg">
 		<a class="navbar-brand" href="/list">로동 신문</a>
+		<img src="제목 없음.png">
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			
+			<!--  -->
+			
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'list' ? 'active' : '' }" href="/list">목록</a>
@@ -18,9 +22,28 @@
 					<a class="nav-link ${current eq 'add' ? 'active' : '' }" href="/add/">글작성</a>
 				</li>
 			</ul>
-			<form class="d-flex" role="search">
-				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success" type="submit">Search</button>
+			
+			
+			<!-- 검색 카테고리 드랍  -->
+			<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    검색 카테고리
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">제목</a></li>
+    <li><a class="dropdown-item" href="#">작성자</a></li>
+    <li><a class="dropdown-item" href="#">본문</a></li>
+  </ul>
+</div>
+			
+			
+			
+			<!-- navbar 우측 위에 떠있는 검색창에 text를 집어넣고 submit 하면 파라미터 name search로 값을 submit함 -->
+			<form action = "/list" class="d-flex" role="search">
+				<input value="${param.search }" name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success" type="submit">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
 			</form>
 		</div>
 	</div>

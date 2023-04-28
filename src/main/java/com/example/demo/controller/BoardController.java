@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,17 +30,18 @@ public class BoardController {
 	// 게시물 목록
 //	@RequestMapping({"/","list"}, method = RequestMethod.GET)
 	@GetMapping({"/","list"}) // "/" ,"list" 경로로 들어온 get요청 처리
-	public String list(Model model) {
+	public String list(Model model,
+					@RequestParam(value="page", defaultValue="1") Integer page,
+					@RequestParam(value = "search",defaultValue= "")String search){
 		// 1. request param 수집 / 가공
 		// 2. business logic 처리
 		
-		List<Board> list = service.listBoard();
-		
+//		List<Board> list = service.listBoard();
+		Map<String, Object> list = service.listBoard(page, search); 
 		// 3. add attribute
 		
-		model.addAttribute("boardList",list);
-		System.out.println(list.size());
-
+	//	model.addAttribute("boardList",list.get("boardList"));
+		model.addAllAttributes(list);
 		
 		// 4. forward/ redirect
 	
