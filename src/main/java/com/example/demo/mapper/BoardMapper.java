@@ -73,6 +73,7 @@ public interface BoardMapper {
 	// OPtions  INSERT 쿼리 실행 시 자동으로 생성되는 Primary Key 값을 객체에 매핑해주는 역할을 합니다.
 
 	
+	
      
 	/*useGeneratedKeys 속성은 이 기능을 사용할 것인지 여부를 결정합니다. 
 	 true로 설정하면 자동 생성된 키를 사용하게 됩니다. 기본값은 false
@@ -87,22 +88,30 @@ public interface BoardMapper {
 	@Select("""
 			<script>
 			<bind name="pattern" value="'%' + search + '%'" />
-		    SELECT
-		        id,
-		        title,
-		        writer,
-		        inserted
-		    FROM Board
-		    WHERE
-		    title LIKE #{pattern}
-		    OR body LIKE #{pattern}
-			OR writer LIKE #{pattern}
-		    ORDER BY id DESC
-		    LIMIT #{startIndex}, #{rowPerPage}
-		    </script>
-		""")
-	List<Board> selectAllPaging(Integer startIndex, Integer rowPerPage,String search);
-	
+			SELECT
+				id,
+				title,
+				writer,
+				inserted
+			FROM Board
+			
+			<where>
+				<if test="(type eq 'all') or (type eq 'title')">
+				   title  LIKE #{pattern}
+				</if>
+				<if test="(type eq 'all') or (type eq 'body')">
+				OR body   LIKE #{pattern}
+				</if>
+				<if test="(type eq 'all') or (type eq 'writer')">
+				OR writer LIKE #{pattern}
+				</if>
+			</where>
+			
+			ORDER BY id DESC
+			LIMIT #{startIndex}, #{rowPerPage}
+			</script>
+			""")
+	List<Board> selectAllPaging(Integer startIndex, Integer rowPerPage, String search, String type);
 	
 	
 
@@ -112,15 +121,32 @@ public interface BoardMapper {
 				<bind name="pattern" value="'%' + search + '%'" />
 			SELECT COUNT(*)
 			FROM Board
-			 WHERE
-		    title LIKE #{pattern}
-		    OR body LIKE #{pattern}
-			OR writer LIKE #{pattern}
+					<where>
+				<if test="(type eq 'all') or (type eq 'title')">
+				   title  LIKE #{pattern}
+				</if>
+				<if test="(type eq 'all') or (type eq 'body')">
+				OR body   LIKE #{pattern}
+				</if>
+				<if test="(type eq 'all') or (type eq 'writer')">
+				OR writer LIKE #{pattern}
+				</if>
+			</where>
 			</script>
 			""")
 	
-	Integer countAll(String search);
+	Integer countAll(String search, String type);
 	
 	
+	@Select("""
+			<script>
+				<bind name="some" value="type"/>
+			SELECT #{some}
+			FROM Board
+			WHERE
+			#{some}
+			</script>
+			""")
+	String droptable(String type);
 }
 

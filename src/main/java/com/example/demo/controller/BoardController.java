@@ -32,12 +32,14 @@ public class BoardController {
 	@GetMapping({"/","list"}) // "/" ,"list" 경로로 들어온 get요청 처리
 	public String list(Model model,
 					@RequestParam(value="page", defaultValue="1") Integer page,
-					@RequestParam(value = "search",defaultValue= "")String search){
+					@RequestParam(value = "search",defaultValue= "")String search,
+					@RequestParam(value = "type", required = false) String type) {
+
 		// 1. request param 수집 / 가공
 		// 2. business logic 처리
 		
 //		List<Board> list = service.listBoard();
-		Map<String, Object> list = service.listBoard(page, search); 
+		Map<String, Object> list = service.listBoard(page, search,type); 
 		// 3. add attribute
 		
 	//	model.addAttribute("boardList",list.get("boardList"));

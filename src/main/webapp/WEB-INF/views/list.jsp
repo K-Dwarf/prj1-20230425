@@ -53,6 +53,9 @@
 						<c:url value="/list" var="pageLink">
 							<c:param name="page" value="${pageInfo.currentPageNum - 1 }" />
 							<c:param name="search" value="${param.search }" />
+								<c:if test="${not empty param.type }">
+									<c:param name="type" value="${param.type }"/>
+							</c:if>
 						</c:url>
 						<li class="page-item">
 							<a class="page-link" href="${pageLink }">이전
@@ -64,9 +67,14 @@
 					<c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }" var="pageNum">
 						<c:url value="/list" var="pageLink">
 							<c:param name="page" value="${pageNum }" />
-							<c:if test="${not empty parm.search }">
+							<c:if test="${not empty param.search }">
 							<c:param name="search" value="${param.search }" />
 							</c:if>
+							<c:if test="${not empty param.type }">
+							
+							<c:param name="type" value="${param.type }"/>
+							</c:if>
+							
 						</c:url>
 						<li class="page-item">
 							<a class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">${pageNum }</a>
@@ -74,11 +82,14 @@
 					</c:forEach>
 
 					<!-- 다음 버튼 -->
-					<c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
+					<c:if test="${pageInfo.currentPageNum < pageInfo.lastPageNum }">
 						<c:url value="/list" var="pageLink">
 							<c:param name="page" value="${pageInfo.currentPageNum + 1 }" />
 							<c:if test="${not empty param.search }">
 								<c:param name="search" value="${param.search }" />
+							</c:if>
+									<c:if test="${not empty param.type }">
+									<c:param name="type" value="${param.type }"/>
 							</c:if>
 						</c:url>
 						<li class="page-item">
