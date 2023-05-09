@@ -17,7 +17,8 @@
 		<t:alert></t:alert>
 
 <div class="container-lg">
-		<h1>게시물 목록</h1>
+		<h1>게시물 목록 TEST.ver01.02</h1>
+		
 		<!-- table.table>thead>tr>th*4^^tbody -->
 		<table class="table">
 			<thead>
@@ -34,6 +35,8 @@
 						<td>${board.id }</td>
 						<td>
 							<a href="/id/${board.id }"> ${board.title } </a>
+							
+							<span>파일 : ${board.fileCount }</span>
 						</td>
 						<td>${board.writer }</td>
 						<td>${board.inserted }</td>
@@ -111,6 +114,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <c:if test="${param.success eq '삭제완료' }">
+    	<script>
+    		alert("게시물이 삭제 되었습니다.");
+    	</script>
+    </c:if>
+    
+     <c:if test="${param.success eq 'message' }">
     	<script>
     		alert("게시물이 삭제 되었습니다.");
     	</script>

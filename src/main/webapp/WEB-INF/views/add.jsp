@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
   <%@ taglib prefix="c" uri="jakarta.tags.core" %><!-- 태그이용을 위한 링크 -->
+    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8 col-lg-6">
 				<h1>게시물 작성</h1>
-				<form action="/add_controller"method="post">
+				<form action="/add_controller"method="post" enctype="multipart/form-data">
 					<div class="mb-3">
 						<label for="titleInput" class="form-label">제목</label>
 						<input id="titleInput" class="form-control" type="text" name="title" value="${board.title }" />
@@ -28,10 +29,23 @@
 						<label for="bodyTextarea" class="form-label">본문</label>
 						<textarea rows="10" id="bodyTextarea" class="form-control" name="body">${board.body }</textarea>
 					</div>
-					<div class="mb-3">
+					<!-- <div class="mb-3">
 						<label for="writerInput" class="form-label">작성자</label>
-						<input id="writerInput" class="form-control" type="text" name="writer" value="${board.writer }" />
+						<input id="writerInput" class="form-control" type="text" name="writer" value="<sec:authentication property="name" />" readonly />
+					</div>    작성자 띄울 필요 없음 -->
+					<div class="mb-3">
+						<label for="fileInput" class="form-label">그림 파일</label>
+						<input class="form-control" type="file" id="fileInput" name="files" accept="image/*" multiple>
+						<div class="form-text">
+						용량제한(개당3MB,총10MB)
+						</div>
 					</div>
+					
+					<div>
+					<input type="file" multiple name="fileList" accept="image/*" />
+					</div>
+					
+					
 					<div class="mb-3">
 						<input class="btn btn-primary" type="submit" value="등록" />
 					</div>

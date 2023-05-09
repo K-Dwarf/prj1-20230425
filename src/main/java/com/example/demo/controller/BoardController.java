@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.Board;
@@ -64,6 +66,9 @@ public class BoardController {
 	
 	// ----------- modify.jsp로 작업넘겨줌 ------------
 	@GetMapping("/modify/{id}")
+	@PreAuthorize(
+			"isAuthenticated() and @customSecurityChecker"
+			+ ".checkBoardWriter(authentication,#id)") 
 	public String modifyForm(@PathVariable("id") Integer id,Model model) {
 		model.addAttribute("board",service.getBoard(id));
 		return "modify";
@@ -71,10 +76,19 @@ public class BoardController {
 
 //	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
 	@PostMapping("/modify/{id}")
-	public String modifyProcess(Board board,RedirectAttributes rda) {
-		System.out.println(board);
+	
+// 메소드 실행전 권한 확인(preAuthorize(로그인되어있는지,customSecurityChecker클래스 불러와서 checkBoardWriter메소드 실행)
+	@PreAuthorize(
+			"isAuthenticated() and @customSecurityChecker"
+			+ ".checkBoardWriter(authentication,#board.id)") 
+	// 수정하려는 게시물 id : board.getId
+	public String modifyProcess(Board board,
+			@RequestParam(value= "files",required = false)MultipartFile[] addFiles,
+			@RequestParam(value = "removeFiles",required = false) List<String> removeFileNames, 
+			RedirectAttributes rda) throws Exception {
+		System.out.println(removeFileNames);
 		
-		boolean ok = service.modify(board);
+		boolean ok = service.modify(board,removeFileNames,addFiles);
 		
 		if(ok) {
 			// 해당 게시물 보기로 리디렉션
@@ -90,6 +104,8 @@ public class BoardController {
 	}
 // -----------------update END-------------Delete Start---------update END
 	@PostMapping("remove")
+	@PreAuthorize("isAuthenticated() and @customSecurityChecker"
+			+ ".checkBoardWriter(authentication,#id)") // 로그인된 사용자와 
 	public String remove(Integer id,RedirectAttributes rda) {
 		boolean ok = service.remove(id); //
 		if(ok) {
@@ -106,7 +122,8 @@ public class BoardController {
 	}
 //------------------Delete END------- INSERT INTO Start ---------------------------------------------
 	@GetMapping("/add/")
-	public String addProcess() {
+	@PreAuthorize("isAuthenticated()")//로그인 된 상태에서만 접근 허용 CustomConfiguration 에서 @EnableMethodSecurity 어노테이션 적용해야함
+	public String addProcess(Board board,RedirectAttributes rttr) {
 		System.out.println("넘어옴");
 		
 		return "add";
@@ -114,8 +131,12 @@ public class BoardController {
 	}
 	
 	@PostMapping("/add_controller")
-	public String addProcess2(Board board) {
-	    boolean ok = service.insert(board); //실질적인 작업은 여기서 끝
+	@PreAuthorize("isAuthenticated()")
+	public String addProcess2(@RequestParam("fileList")MultipartFile[] fileList,
+			Board board,
+			Authentication authentication)throws Exception {
+		board.setWriter(authentication.getName());// 현재 로그인한 사용자의 이름을 board 객체의 writer 필드에 설정
+	    boolean ok = service.insert(board, fileList); //실질적인 작업은 여기서 끝
 	    System.out.println(ok);
 	    if (ok) {
 	    	

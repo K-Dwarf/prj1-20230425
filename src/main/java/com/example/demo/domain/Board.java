@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -12,5 +13,7 @@ public class Board {
 	private String body;
 	private String writer;
 	private LocalDateTime inserted;
+	private List<String> fileName;
 	
+	private Integer fileCount;
 }
