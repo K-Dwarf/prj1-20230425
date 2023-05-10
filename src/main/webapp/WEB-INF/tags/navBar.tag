@@ -1,4 +1,5 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ attribute name="current"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
@@ -33,11 +34,24 @@
 				</li>
 				</sec:authorize>
 				
-				<sec:authorize access="isAuthenticated()">
+				<sec:authorize access="hasAuthority('admin')">
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'memberList' ? 'active' : '' }" href="/member/list">회원목록</a>
 				</li>
 				</sec:authorize>
+				
+				
+				
+			<sec:authorize access="isAuthenticated()">
+
+  <li class="nav-item">
+    <a class="nav-link ${current == 'memberInfo' ? 'active' : '' }" href="/member/info?id=<sec:authentication property="name" />">회원정보</a>
+  </li>
+</sec:authorize> 
+				
+				
+				
+				
 				
 				<sec:authorize access="isAnonymous()">
 				<li class="nav-item">
@@ -90,27 +104,24 @@
 <sec:authentication property="principal"/>
 </div>
 
-<!--  
+
 <div>
-<sec:authorize access="isAuthenticated()" var="loggedIn">
-로그인한 상태 에서만 보임
-</sec:authorize>
+	<sec:authorize access="isAuthenticated()" var="loggedIn">
+		로그인한 상태 에서만 보임
+		</sec:authorize>
 </div>
 
 <div>
-<sec:authorize access="${loggedIn }" >
-로그인한 상태 2
-</sec:authorize>
+	<sec:authorize access="${loggedIn }">
+		로그인한 상태 2
+		</sec:authorize>
 </div>
-
-
 
 
 
 <div>
-<sec:authorize access="isAnonymous()">
-로그아웃 상태 에서 만 보임
-</sec:authorize>
+	<sec:authorize access="isAnonymous()">
+		로그아웃 상태 에서 만 보임
+		</sec:authorize>
 
 </div>
- -->

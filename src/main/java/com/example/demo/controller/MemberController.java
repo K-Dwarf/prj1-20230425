@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.domain.Member;
 import com.example.demo.service.MemberService;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("member")
-@PreAuthorize("isAuthenticated()") //로그인 상태에서만 접근 허용
 public class MemberController {
 
 	@Autowired
@@ -37,13 +38,13 @@ public class MemberController {
 	@GetMapping("signup")
 	@PreAuthorize("isAnonymous()") //로그인 안한 상태에서 접근 가능하도록 설정, CustomConfiguration에서 @EnableMethodSecurity 어노테이션 적용해야함
 	public void signupForm() {
-		
+		System.out.println("get.signup까지는 넘어옴");
 	}
 	
 	
 	@PostMapping("signup")
 	public String signupProcess(Member member, RedirectAttributes rttr) {
-	
+	System.out.println("getPost까지도 넘어옴");
 		try {
 			service.signup(member);
 			rttr.addFlashAttribute("message", "회원 가입되었습니다.");
@@ -58,6 +59,7 @@ public class MemberController {
 	
 	
 	@GetMapping("list")
+	@PreAuthorize("hasAuthority('admin')")
 	public void list(Model model) {
 		List<Member> list = service.listMember();
 		model.addAttribute("memberList", list); //list 객체를 memberList 라는 이름으로 model객체에 담아서 jsp 로 전달
@@ -68,7 +70,7 @@ public class MemberController {
 	
 	// 경로: /member/info?id=
 	@GetMapping("info")
-	@PreAuthorize("isAuthenticated()") //로그인 상태에서만 접근 허용
+	@PreAuthorize("isAuthenticated() and (authentication.name eq #id) or hasAuthority('admin')") //로그인한 상태, 로그인한정보와 해당글의 id가 같을 때 or admin권한을 가졌을때 실행
 	public void info(String id,Model model) {
 		
 		   Member member = service.get(id);
@@ -78,14 +80,19 @@ public class MemberController {
 	
 	
 	@PostMapping("remove")
-	@PreAuthorize("isAnonymous()")
-	public String remove(Member member,RedirectAttributes rttr) {
+	@PreAuthorize("isAuthenticated() and (authentication.name eq #member.id)") //remove메소드의 Member파라미터의 id값을 받아옴
+	public String remove(Member member,RedirectAttributes rttr,
+			HttpServletRequest request) throws ServletException {
 		
 		boolean ok = service.remove(member);
 		
 		if(ok) {
 			rttr.addFlashAttribute("message","탈퇴완료");
+			
+			// 로그아웃
+			request.logout();
 			return "redirect:/list";
+			
 		}else {
 			rttr.addFlashAttribute("message","탈퇴 문제 발생");
 			return "redirect:/member/info?id=?" + member.getId();
@@ -95,7 +102,7 @@ public class MemberController {
 
 	// 1.
 	@GetMapping("modify")
-	@PreAuthorize("isAnonymous()")
+	@PreAuthorize("isAuthenticated()")
 	public void modifyForm(String id,Model model) {
 		
 		 Member member = service.get(id);
@@ -108,6 +115,7 @@ public class MemberController {
 	
 	//2.
 	@PostMapping("modify")
+	@PreAuthorize("isAuthenticated() and (authentication.name eq #member.id)")
 	public String modifyProcess(Member member, RedirectAttributes rttr,String oldPassword) {
 		boolean ok = service.modify(member,oldPassword);
 

@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class Member {
 	
 	private LocalDateTime inserted;
 	private String oldPassword;
+	private List<String> authority;
 }

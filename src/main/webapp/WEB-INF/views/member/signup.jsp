@@ -18,47 +18,55 @@
 
 	<t:navBar>
 	</t:navBar>
-	
+
 	<t:alert></t:alert>
 	<div class="container-lg">
 
 		<div class="row justify-content-center">
 			<div class="col-6 col-md-5 col-lg-30">
-		<p>(현재는 아무거나 입력가능)</p>
-			<h1>회원가입</h1>
-			<form action="signup" method="post">
+				<p>(현재는 아무거나 입력가능)</p>
+				<h1>회원가입</h1>
+				<form action="signup" method="post">
 
-				<div class="mb-3">
-					<label for="inputId" class="form-label">아이디</label> 
-					<input id="inputId" type="text" class="form-control" name="id" value="${member.id }">
-				</div>
+					<div class="mb-3">
+						<label for="inputId" class="form-label">아이디</label>
+						 <input id="inputId" type="text" class="form-control" name="id" value="${member.id }">
+					</div>
 
-				<div class="mb-3">
-					<label for="inputPassword" class="form-label">비밀번호</label> 
-					<input id="inputPassword" type="password" class="form-control" name="password" value="${member.password }">
-				</div>
+					<div class="mb-3">
+						<label for="inputPassword" class="form-label">비밀번호</label> 
+						<input id="inputPassword" type="password" class="form-control" name="password" value="${member.password }">
+					</div>
+
+					<div class="mb-3">
+						<label for="inputPasswordCheck" class="form-label">비밀번호 확인</label>
+						 <input id="inputPasswordCheck" type="password" class="form-control" value="${member.password }">
+					</div>
 
 
-				<div class="mb-3">
-					<label for="" class="form-label">닉네임</label> 
-					<input id="inputNickName" type="text" class="form-control" name="nickName" value="${member.nickName }">
-				</div>
+					<div id="passwordSuccessText" class="d-none form-text text-primary">
+						<i class="fa-solid fa-check"></i> 패스워드가 일치 합니다
+					</div>
+
+					<div id="passwordFailText" class="d-none form-text text-danger">
+						<!-- d-none = display에서 숨김 -->
+						<i class="fa-solid fa-triangle-exclamation"></i> 패스워드가 일치하지 않습니다
+					</div>
+
+					<div class="mb-3">
+						<label for="" class="form-label">닉네임</label> <input id="inputNickName" type="text" class="form-control" name="nickName" value="${member.nickName }">
+					</div>
 
 
-				<div class="mb-3">
-					<label for="" class="form-label">이메일</label> 
-					<input id="inputEmail" type="email" class="form-control" name="email" v>
-				</div>
-			
-			
-		
+					<div class="mb-3">
+						<label for="" class="form-label">이메일</label> <input id="inputEmail" type="email" class="form-control" name="email" v>
+					</div>
+					<div class="mb-3">
+						<input id="signUpSubmit" class="btn btn-secondary disabled" type="submit" value="회원가입" />
+					</div>
+				</form>
 
-				<div class="mb-3">
-						<input class="btn btn-secondary" type="submit" value="회원가입" />
-				</div>
-			</form>
-		
-</div>
+			</div>
 
 
 		</div>
@@ -70,5 +78,10 @@
 	<!-- 부트 스트랩 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!--jquery-->
+	
+
+	<script src="/js/member/signup.js"></script>
+
+
 </body>
 </html>

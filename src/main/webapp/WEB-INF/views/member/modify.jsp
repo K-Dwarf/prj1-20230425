@@ -36,6 +36,25 @@
 						<label class="form-label" for="inputPassword"> 패스워드 </label>
 						<input id="inputPassword" class="form-control" type="text" name="password" value="${member.password }" />
 					</div>
+					
+						<div class="mb-3">
+						<label for="inputPasswordCheck" class="form-label">비밀번호 확인</label>
+						 <input id="inputPasswordCheck" type="password" class="form-control"  value="${member.password }">
+					</div>
+					
+					
+						<div id="passwordSuccessText" class="d-none form-text text-primary">
+					<i class="fa-solid fa-check"></i>
+					패스워드가 일치 합니다
+					</div>
+					
+					<div id="passwordFailText" class="d-none form-text text-danger"> <!-- d-none = disply에서 숨김 -->
+					<i class="fa-solid fa-triangle-exclamation"></i>
+					패스워드가 일치하지 않습니다
+					</div>
+					
+					
+					
 					<div class="mb-3">
 						<label class="form-label" for="inputNickName"> 별명 </label>
 						<input id="inputNickName" class="form-control" type="text" name="nickName" value="${member.nickName }" />
@@ -45,7 +64,7 @@
 						<input id="inputEmail" class="form-control" type="email" name="email" value="${member.email }" />
 					</div>
 
-					<button type="button" data-bs-toggle="modal" data-bs-target="#confirmModal" class="btn btn-primary">수정</button>
+					<button id="modifyButton" type="button" data-bs-toggle="modal" data-bs-target="#confirmModal" class="btn btn-primary">수정</button>
 				</form>
 
 			</div>
@@ -77,5 +96,13 @@
 	<!-- 부트 스트랩 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!--jquery-->
+	
+	<script src="/js/member/modify.js"></script>
+	
+	
+	
+	
+	
+	
 </body>
 </html>

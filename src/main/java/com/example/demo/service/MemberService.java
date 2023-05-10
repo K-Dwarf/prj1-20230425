@@ -14,8 +14,13 @@ import com.example.demo.mapper.MemberMapper;
 @Transactional(rollbackFor = Exception.class)
 public class MemberService {
 
+	
+	
 	@Autowired
 	private MemberMapper mapper;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	// 암호를 암호화 하는 작업
 	// ---------------------------------------------------
@@ -54,6 +59,11 @@ public class MemberService {
 		if (passwordEncoder.matches(member.getPassword(),oldMember.getPassword())) {
 			// 입력한 암호와 기존 암호가 같으면?
 			
+			
+			// 이 회원이 작성한 게시물 row 삭제
+			boardService.removeByMemberIdWriter(member.getId());
+			
+			// 회원 테이블 삭제
 			cnt = mapper.deleteById(member.getId());
 		}
 		

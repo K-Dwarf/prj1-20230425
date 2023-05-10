@@ -1,8 +1,10 @@
 package com.example.demo.security;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,10 +27,18 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if(member == null) {
 			throw new UsernameNotFoundException(username + "해당 회원 조회 불가");
 		}
+		
+		List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+		
+		for(String auth : member.getAuthority()) {
+			authorityList.add(new SimpleGrantedAuthority(auth)); 
+		}
+		
 		UserDetails user = User.builder()
 				.username(member.getId())
 				.password(member.getPassword())
-				.authorities(List.of())
+				.authorities(authorityList)
+//				.authorities(member.getAuthority().stream().map(SimpleGrantedAuthority::new).toList())
 				.build();
 				
 		

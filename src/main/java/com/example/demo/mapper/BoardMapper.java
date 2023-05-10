@@ -209,5 +209,13 @@ public interface BoardMapper {
 
 	
 	
-}
+	@Select("""
+			SELECT id
+			FROM Board
+			WHERE writer = #{writer}
+			
+			""")
+	List<Integer> selectIdByWriter(String writer); //게시글 
+	
+	}
 

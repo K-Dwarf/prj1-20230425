@@ -217,4 +217,13 @@ public class BoardService {
 		return Map.of("pageInfo", pageInfo, 
 				      "boardList", list);
 	}
+
+	public void removeByMemberIdWriter(String writer) {
+		List<Integer>idList = mapper.selectIdByWriter(writer);
+		
+		for(Integer id : idList) {
+			remove(id);
+		}
+		
+	}
 }
