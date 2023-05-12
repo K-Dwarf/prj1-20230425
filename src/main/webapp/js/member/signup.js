@@ -1,11 +1,20 @@
+$("#signUpSubmit").keypress(function (e) {
+  if (e.which === enter) {
+    e.preventDefault(); // submit 이벤트 실행 방지
+    return false;
+  }
+});
+	
 // 패스워드, 패스워드체크 인풋에 키업 이벤트 발생하면
-	$("#inputPassword, #inputPasswordCheck").keyup(function() {
+	$("#inputPassword, #inputPasswordCheck,#inputId").keyup(function() {
 		// 패스워드에 입력한 값
 		const pw1 = $("#inputPassword").val();
 		// 패스워드확인에 입력한 값이
 		const pw2 = $("#inputPasswordCheck").val();
 		
-		if (pw1 === pw2 ) {
+		const id1 = $("#inputId").val();
+		
+		if (pw1 === pw2 & (pw1 & pw2) != "" &id1 != "")  {
 			// 같으면
 			// submit 버튼 활성화
 			$("#signUpSubmit").removeClass("disabled");
@@ -22,6 +31,5 @@
 			$("#passwordSuccessText").addClass("d-none");
 			
 		}
-		
-		
 	})
+		

@@ -50,7 +50,7 @@
 
 					<div id="passwordFailText" class="d-none form-text text-danger">
 						<!-- d-none = display에서 숨김 -->
-						<i class="fa-solid fa-triangle-exclamation"></i> 패스워드가 일치하지 않습니다
+						<i class="fa-solid fa-triangle-exclamation"></i> 패스워드가 일치하지 않거나 공백상태입니다
 					</div>
 
 					<div class="mb-3">
