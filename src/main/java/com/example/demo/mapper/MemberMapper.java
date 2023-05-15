@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.example.demo.domain.Like;
 import com.example.demo.domain.Member;
 @Mapper
 public interface MemberMapper {
@@ -67,7 +68,26 @@ public interface MemberMapper {
 			</script>
 			""")
 	Integer update(Member member);
+
+
+	@Select("""
+			SELECT *
+			FROM Member
+			WHERE nickName = #{nickName}
+			""")
+	Member selectnickName(String nickName);
+
+
 	
+
+	@Select("""
+			SELECT *
+			FROM Member
+			WHERE Email = #{email}
+			""")
+	Member selectEmail(String email);
+
+
 
 
 }

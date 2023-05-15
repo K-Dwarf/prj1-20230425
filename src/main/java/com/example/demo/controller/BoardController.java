@@ -13,12 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.Board;
+import com.example.demo.domain.Like;
 import com.example.demo.service.BoardService;
 
 @Controller
@@ -146,4 +149,15 @@ public class BoardController {
 	        return "redirect:/list";
 	    }
 	}
+	
+	
+	@PostMapping("like")
+	@ResponseBody
+	public Map<String, Object> like(@RequestBody Like like, Authentication authentication ) {
+				
+		return service.like(like,authentication);
+	}
+	// like 메서드는 Like 객체와 Authentication 객체를 파라미터로 받습니다.
+	// Like 객체는 클라이언트에서 전송한 JSON 데이터를 자동으로 매핑하여 받아옵니다.(domain의 Like를 이용해서)
 }
+

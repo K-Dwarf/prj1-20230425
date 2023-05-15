@@ -33,13 +33,13 @@
 						<input id="inputId" class="form-control" type="text" name="id" value="${member.id }" readonly />
 					</div>
 					<div class="mb-3">
-						<label class="form-label" for="inputPassword"> 패스워드 </label>
-						<input id="inputPassword" class="form-control" type="text" name="password" value="${member.password }" />
+						<label class="form-label" for="inputPassword"> New Password </label>
+						<input id="inputPassword" class="form-control" type="text" name="password" value="" />
 					</div>
 					
 						<div class="mb-3">
 						<label for="inputPasswordCheck" class="form-label">비밀번호 확인</label>
-						 <input id="inputPasswordCheck" type="password" class="form-control"  value="${member.password }">
+						 <input id="inputPasswordCheck" type="password" class="form-control"  value="">
 					</div>
 					
 					
@@ -48,17 +48,26 @@
 					패스워드가 일치 합니다
 					</div>
 					
-					<div id="passwordFailText" class="d-none form-text text-danger"> <!-- d-none = disply에서 숨김 -->
+					<div id="passwordFailText" class="d-none form-text text-danger"> <!-- d-none = display에서 숨김 -->
 					<i class="fa-solid fa-triangle-exclamation"></i>
 					패스워드가 일치하지 않습니다
 					</div>
 					
-					
-					
 					<div class="mb-3">
+					
+					<div class="d-none form-text text-primary" id="availableNickNameMessage">
+							<i class="fa-solid fa-check"></i>
+							사용 가능한 별명입니다.
+						</div>
+						<div class="d-none form-text text-danger" id="notAvailableNickNameMessage">
+							<i class="fa-solid fa-triangle-exclamation"></i>
+							사용 불가능한 별명입니다.
+						</div>
 						<label class="form-label" for="inputNickName"> 별명 </label>
 						<input id="inputNickName" class="form-control" type="text" name="nickName" value="${member.nickName }" />
 					</div>
+					<button type="button" id="checkNickNameBtn">중복확인</button>
+		
 					<div class="mb-3">
 						<label class="form-label" for="inputEmail"> 이메일 </label>
 						<input id="inputEmail" class="form-control" type="email" name="email" value="${member.email }" />

@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +90,51 @@ public class MemberService {
 		
 		return cnt == 1;
 	}
+
+
+
+
+
+
+	public Map<String, Object> checkId(String id) {
+		Member member = mapper.selectId(id);
+		
+		return Map.of("available",member == null);
+	}
+
+
+
+
+
+	
+	public Map<String, Object> checkNickName(String nickName, Authentication authentication) {
+		Member member = mapper.selectnickName(nickName);
+		if(authentication != null) {
+			Member oldMember = mapper.selectId(nickName);
+			return Map.of("available",member == null || oldMember.getNickName().equals(nickName));
+		}else {
+			return Map.of("available",member == null);
+			
+		}
+	}
+
+
+
+
+
+
+	public Map<String, Object> checkEmail(String email) {
+Member member = mapper.selectEmail(email);
+		
+		return Map.of("available",member == null);
+	}
+
+
+
+
+
+
+
 	
 
 }
