@@ -31,6 +31,8 @@ public class BoardService {
 
 	@Autowired
 	private BoardMapper mapper;
+	
+
 
 	@Autowired
 	private boardLikeMapper likeMapper;
@@ -43,11 +45,20 @@ public class BoardService {
 		return list;
 	}
 
-	public Board getBoard(Integer id) {
-
-		return mapper.selectById(id);
-	}
-
+	public Board getBoard(Integer id,Authentication authentication) {
+		Board board = mapper.selectById(id);
+		
+		// 현재 로그인한 사람이 이 게시물에 좋아요 했는지?
+		
+		if(authentication != null) {
+			Like like =likeMapper.select(id,authentication.getName());
+			if(like != null) {
+				board.setLiked(true);
+				
+			}
+		}
+		return board;
+}
 	public boolean modify(Board board, List<String> removeFileNames, MultipartFile[] addFiles) throws Exception {
 
 		// FileName 테이블 삭제
@@ -95,6 +106,10 @@ public class BoardService {
 
 	public boolean remove(Integer id) {
 
+		// 좋아요 테이블 지우기
+		likeMapper.deleteByBoardId(id);
+		
+		
 		// 파일명 조회
 		List<String> fileNames = mapper.selectFileNameByBoardId(id);
 
@@ -122,7 +137,7 @@ public class BoardService {
 		// 게시물 테이블의 데이터 지우기
 
 		int cnt = mapper.deleteById(id);
-		return cnt > 0;
+		return cnt == 1;
 
 	}
 
@@ -217,7 +232,15 @@ public class BoardService {
 			Integer insertCnt = likeMapper.insert(like);//insertCnt 메소드 실행,BoardLike테이블에 {boardId},{memberId} 추가 
 			result.put("like", true);//js에 true값 반환,꽉찬하트로 아이콘 바꿈		
 		}
+		
+		Integer count = likeMapper.countByBoardId(like.getBoardId());
+		result.put("count",count);
 		return result;
+	}
+	
+	public Board getBoard(Integer id) {
+		// TODO Auto-generated method stub
+		return getBoard(id, null);
 	}
 }
 			

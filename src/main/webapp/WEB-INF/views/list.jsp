@@ -16,14 +16,15 @@
       <t:navBar />
 		<t:alert></t:alert>
 
-<div class="container-lg">
-		<h1>게시물 목록 TEST.ver01.02</h1>
-		
+	<div class="container-lg">
+		<h1>게시물 목록</h1>
 		<!-- table.table>thead>tr>th*4^^tbody -->
+		<!-- 새로작성된 코드 변경된 코드!!!  -->
 		<table class="table">
 			<thead>
 				<tr>
 					<th>#</th>
+					<th><i class="fa-solid fa-heart"></i></th>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>작성일시</th>
@@ -33,10 +34,17 @@
 				<c:forEach items="${boardList }" var="board">
 					<tr>
 						<td>${board.id }</td>
+						<td>${board.likeCount }</td>
 						<td>
 							<a href="/id/${board.id }"> ${board.title } </a>
 							
-							<span>파일 : ${board.fileCount }</span>
+							<c:if test="${board.fileCount > 0 }">
+								<span class="badge rounded-pill text-bg-info">
+									<i class="fa-regular fa-images"></i>
+									${board.fileCount }
+								</span>
+							</c:if>
+							
 						</td>
 						<td>${board.writer }</td>
 						<td>${board.inserted }</td>
@@ -45,6 +53,7 @@
 			</tbody>
 		</table>
 	</div>
+
 
 	<div class="container-lg">
 		<div class="row">

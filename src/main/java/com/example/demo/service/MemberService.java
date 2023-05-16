@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Member;
 import com.example.demo.mapper.MemberMapper;
+import com.example.demo.mapper.boardLikeMapper;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -20,6 +21,9 @@ public class MemberService {
 	
 	@Autowired
 	private MemberMapper mapper;
+	
+	@Autowired
+	private boardLikeMapper likeMapper;
 	
 	@Autowired
 	private BoardService boardService;
@@ -64,6 +68,10 @@ public class MemberService {
 			
 			// 이 회원이 작성한 게시물 row 삭제
 			boardService.removeByMemberIdWriter(member.getId());
+			
+			// 이 회원이 좋아요한 레코드 삭제
+			likeMapper.deleteByMemberId(member.getId());
+			
 			
 			// 회원 테이블 삭제
 			cnt = mapper.deleteById(member.getId());
@@ -121,14 +129,19 @@ public class MemberService {
 
 
 
-
-
-	public Map<String, Object> checkEmail(String email) {
-Member member = mapper.selectEmail(email);
+	public Map<String, Object> checkEmail(String email, Authentication authentication) {
+		Member member = mapper.selectEmail(email);
 		
-		return Map.of("available",member == null);
+		if (authentication != null) {
+			Member oldMember = mapper.selectId(email);
+			
+			return Map.of("available", member == null || oldMember.getEmail().equals(email));
+		} else {
+			return Map.of("available", member == null);
+			
+		}
+		
 	}
-
 
 
 

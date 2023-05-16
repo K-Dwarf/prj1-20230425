@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -57,10 +58,10 @@ public class BoardController {
 //----------------------- update---------------update----------	
 	//------------ list.jsp에서 받아온 {board.id} 를 id 변수에 할당----------------
 	@GetMapping("/id/{id}")
-	public String board(@PathVariable("id")Integer id, Model model) {
+	public String board(@PathVariable("id")Integer id, Model model,Authentication authentication) {
 		//1. request param
 		//2. business logic
-	Board board = 	service.getBoard(id);//id변수를 사용해 해당ID의 커럼들을 가져옴
+	Board board = 	service.getBoard(id,authentication);//{id}변수를 사용해 해당ID의 커럼들을 가져옴
 		//3. add attribute
 	model.addAttribute("board",board);
 		//4. forward/redirect
@@ -103,7 +104,7 @@ public class BoardController {
 			rda.addAttribute("fail","fail");
 			return "redirect:/modify/" + board.getId(); // 문제있을시 띄울 화면
 		}
-		
+	
 	}
 // -----------------update END-------------Delete Start---------update END
 	@PostMapping("remove")
@@ -153,11 +154,18 @@ public class BoardController {
 	
 	@PostMapping("like")
 	@ResponseBody
-	public Map<String, Object> like(@RequestBody Like like, Authentication authentication ) {
+	public ResponseEntity<Map<String, Object>> like(@RequestBody Like like, Authentication authentication ) {
 				
-		return service.like(like,authentication);
+		// 만약 로그인 상태가 아니라면
+		if (authentication == null) {
+			return ResponseEntity.status(403).body(Map.of("message","로그인이 필요한 서비스입니다"));
+		}else {
+		
+			return  ResponseEntity.ok().body(service.like(like,authentication));
+		
 	}
 	// like 메서드는 Like 객체와 Authentication 객체를 파라미터로 받습니다.
 	// Like 객체는 클라이언트에서 전송한 JSON 데이터를 자동으로 매핑하여 받아옵니다.(domain의 Like를 이용해서)
+}
 }
 

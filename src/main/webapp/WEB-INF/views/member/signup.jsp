@@ -63,7 +63,7 @@
 					<div class="mb-3">
 						<label for="inputNickName" class="form-label">별명</label>
 						<div class="input-group">
-							<input id="inputNickName" type="text" class="form-control" name="nickName" value="${member.nickName }" />
+							<input id="inputNickName" type="text" class="form-control" name="nickName" value="" />
 							<button class="btn btn-outline-secondary" type="button" id="checkNickNameBtn">중복확인</button>
 						</div>
 

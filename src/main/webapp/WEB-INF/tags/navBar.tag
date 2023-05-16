@@ -99,7 +99,7 @@
 	</div>
 </nav>
 
-<!-- 사용자 정보 -->
+<!-- 사용자 정보 --><!--  
 <div>
 <sec:authentication property="principal"/>
 </div>
@@ -125,3 +125,4 @@
 		</sec:authorize>
 
 </div>
+-->

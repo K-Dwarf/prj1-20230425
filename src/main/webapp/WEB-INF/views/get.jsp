@@ -16,6 +16,19 @@
 
 
 	<t:navBar></t:navBar>
+	
+	
+	<!-- toast(토스트알람) -->
+	<div class="toast-container top-0 start-50 translate-middle-x p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+    
+    </div>
+  </div>
+</div>
 
 
 	<div class="container-lg">
@@ -24,23 +37,27 @@
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8 col-lg-6">
 				<h1>
-				<span id="boardIdText">
-				${board.id }<!-- BoardController 의 board객체 -->
-				</span>
+				<span id="boardIdText">${board.id }</span>
 				
-				<span>번 게시물</span>
-				</h1><p1></p1>
+				번 게시물
+				</h1>
 				
 				
 					<div>
 					
 					<h1>
-					<span id="likeIcon" >
-						<i class="fa-regular fa-heart" ></i>
-					</span>
-					<span id="likeNumber">
-						<%-- ${board.like } --%>
-					</span>
+						<span id="likeIcon">
+							<c:if test="${board.liked }">
+								<i class="fa-solid fa-heart"></i>
+							</c:if>
+							
+							<c:if test="${not board.liked }">
+								<i class="fa-regular fa-heart"></i>
+							</c:if>
+						</span>
+						<span id="likeNumber">
+							${board.likeCount }
+						</span>
 					</h1>
 				</div>
 				

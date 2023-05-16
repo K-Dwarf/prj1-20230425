@@ -46,8 +46,10 @@ public class MemberController {
 	
 	@GetMapping("checkEmail/{email}")
 	@ResponseBody
-	public Map<String, Object> checkEmail(@PathVariable("email") String email) {
-		return service.checkEmail(email);
+	public Map<String, Object> checkEmail(
+			@PathVariable("email") String email,
+			Authentication authentication) {
+		return service.checkEmail(email, authentication);
 	}
 	
 	
