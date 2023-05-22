@@ -34,7 +34,7 @@
 				</li>
 				</sec:authorize>
 				
-				<sec:authorize access="hasAuthority('admin')">
+				<sec:authorize access="hasAuthority('admin')"> <!-- Authority가 admin 을 가진 계정만 보임 -->
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'memberList' ? 'active' : '' }" href="/member/list">회원목록</a>
 				</li>
@@ -99,11 +99,12 @@
 	</div>
 </nav>
 
-<!-- 사용자 정보 --><!--  
+<!-- 사용자 정보 -->
 <div>
 <sec:authentication property="principal"/>
 </div>
 
+<!-- 
 
 <div>
 	<sec:authorize access="isAuthenticated()" var="loggedIn">
@@ -115,10 +116,11 @@
 	<sec:authorize access="${loggedIn }">
 		로그인한 상태 2
 		</sec:authorize>
-</div>
+</div> 
+-->
 
 
-
+<!--
 <div>
 	<sec:authorize access="isAnonymous()">
 		로그아웃 상태 에서 만 보임

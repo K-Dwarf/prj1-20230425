@@ -94,6 +94,30 @@
 						<input type="text" readonly class="form-control" value="${board.inserted }" />
 					</div>
 					
+			<div id="commentContainer">
+						
+						<div id="addCommentContainer">
+							<h6>입력</h6>
+							<textarea id="commentTextArea"></textarea>
+							<button id="sendCommentBtn">전송</button>
+						</div>
+						<div id="updateCommentContainer">
+							<h6>수정</h6>
+							<input type="hidden" id="commentUpdateIdInput" />
+							<textarea id="commentUpdateTextArea"></textarea>
+							<button id="updateCommentBtn">수정</button>
+						</div>
+					
+					<div id="commentListContainer">
+					</div>
+					
+					
+					</div>
+					
+					
+					
+					
+					
 						<sec:authorize access="isAuthenticated()"> <!-- 로그인 상태에서만 보임 -->
 						<sec:authentication property="name" var="userId"/> <!-- 로그인한 정보를 userId 로 저장 -->
 						<c:if test="${userId eq board.writer }"> <!-- 로그인한 이름과 작성자가 같으면 실행 -->
@@ -137,6 +161,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/board/like.js"></script>
+<script src="/js/board/comment.js"></script>
 </body>
 </html>
 
